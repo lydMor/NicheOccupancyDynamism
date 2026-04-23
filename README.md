@@ -13,9 +13,7 @@ Here, you can use the provided files and associated R scripts to reproduce our o
 
 TemporalNicheComp.R - R script detailing temporal niche comparison process. 
 
-Dist_T1.csv - occurrence records for a focal species at T1 
-
-Dist_T2.csv - occurrence records for a focal species at T2 
+Dist.csv - occurence records for a focal species, with lat, long, and year. These data will be separated by the temporal inflection point chosen by the researcher. 
 
 Env_T1.csv - environmental data associated with focal species occurrence records at T1
 
@@ -27,12 +25,9 @@ On this page, you can also find data and code associated with the publication "U
 
 ENM.csv - script associated with generating an Ecological Niche Model using MAXENT in R. 
 
-Porcupine.csv - full porcupine distribution data
-
 Puma.csv - full Puma distribution data
 
 Fisher.csv - full fisher distribution data
 
-Env.tif - environmental rasters used to build porcupine, puma, and fisher ENMs
 
 
