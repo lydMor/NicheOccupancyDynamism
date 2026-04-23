@@ -15,9 +15,8 @@ TemporalNicheComp.R - R script detailing temporal niche comparison process.
 
 Dist.csv - occurence records for a focal species, with lat, long, and year. These data will be separated by the temporal inflection point chosen by the researcher. 
 
-Env_T1.csv - environmental data associated with focal species occurrence records at T1
+*NOTE: Environmental rasters are not provided here due to file size limitations, but the protocol detailed in TemporalNicheComp.R can be used to clean and modify any environmental rasters that researchers deem appropriate for their study.
 
-Env_T2.csv - environmental data associated with focal species occurence records at T2
 
 **Additional data and code:**
 
