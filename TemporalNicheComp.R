@@ -22,6 +22,77 @@ old_dist<- Dist %>% filter(year<=1950) %>% select(-year)
 new_dist<- Dist %>% filter(year > 1950) %>% select(-year)
 
 ## READ IN YOUR ENVIRONMENTAL DATA: 
+## READ IN YOUR RASTERS: (PREDS PAST AND CURRENT) ALREADY CROPPED TO EXTENT
+Pum_Past<- rast('puma_Past_R1spThin.asc')
+Fish_Past<- rast('fisher_Past_R1spThin.asc')
+Pred_Past<- c(Pum_Past, Fish_Past)
+
+Pum_Pres<- rast("puma_Current.asc")
+Fish_pres<- rast("fisher_Current.asc")
+Pred_Cur<- c(Pum_Pres, Fish_pres)
+
+## get an extent: 
+extent<- ext(Pum_Pres)
+## read in and adjust your ANTHROMES: 
+Land_Past<- rast("land_Past.tif")
+Land_Pres<- rast("land_Current.tif")
+## crop to extents: 
+Land_past<- crop(Land_Past, extent)
+Land_Pres<- crop(Land_Pres, extent)
+
+### create a class dataframe bc you can't use factors in humboldt: 
+Classes<- data.frame(landcover=c("Water",
+                                 "Forest",
+                                 "Grassland",
+                                 "Barren",
+                                 "Cropland",
+                                 "Urban",
+                                 "PermSnowIce"
+), landUse=1:7)
+Classes$Ordinal<- c(2,2,3,6,4,5,7)
+
+### now read in your CLIMATIC DATA: 
+BIO<- rast("allEnvVars_2.5.tif")
+R2<- subset(BIO, subset=c("alt", 
+                          'bio8', 
+                          'bio4', 
+                          'bio12', 
+                          'bio7', 
+                          'bio9', 
+                          'bio6'
+))
+
+
+
+## crop them to study extent: 
+R2_ext<- crop(R2, extent)
+
+### combine CURRENT RASTERS: 
+
+names(Pum_Pres)[1]<-"Puma"
+names(Fish_pres)[1]<-"Fisher"
+names(Land_Pres)[1]<-"landUse"
+Current<- c(R2_ext, Pum_Pres)
+Current<- c(Current, Fish_pres)
+Current<- c(Current, Land_Pres)
+## save this: 
+writeRaster(Current, "Env_T2.tif")
+## make a RASTER format: (this works, will use below)
+Current2<- stack("Vars_Current_all.tif")
+
+#### combine PAST RASTERS: 
+names(Pum_Past)[1]<-"Puma"
+names(Fish_Past)[1]<-"Fisher"
+names(Land_Past)[1]<-"landUse"
+Past<- c(R2_ext, Pum_Past)
+Past<- c(Past, Fish_Past)
+Past<- c(Past, Land_Past) 
+### Save this: 
+writeRaster(Past, "Env_T1.tif")
+
+#### OKAY: Now delete everything and just load the shit you need: 
+rm(list=ls())
+
 ## load rasters: 
 Past<- stack("Env_T1.tif")
 Current<- stack("Env_T2.tif")
